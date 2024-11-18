@@ -3,15 +3,15 @@ function isLesserOrEqual(string, maxLength) {
 }
 
 function isPalindrome(string) {
-  let normalizedString = string.replaceAll(" ", "").toLowerCase();
-  let reversedString = normalizedString.split("").reverse().join("");
+  const normalizedString = string.replaceAll(' ', '').toLowerCase();
+  const reversedString = normalizedString.split('').reverse().join('');
 
   return normalizedString === reversedString;
 }
 
 function toPositiveNumber(string) {
-  let normalizedString = string.toString().replaceAll(" ", "");
-  let result = "";
+  const normalizedString = string.toString().replaceAll(' ', '');
+  let result = '';
 
   for (let i = 0; i < normalizedString.length; i++) {
     if(!isNaN(Number(normalizedString[i]))) {
@@ -19,6 +19,6 @@ function toPositiveNumber(string) {
     }
   }
 
-  return parseInt(result);
+  return parseInt(result, 10);
 }
 
