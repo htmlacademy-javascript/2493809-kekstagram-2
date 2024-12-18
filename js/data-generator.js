@@ -44,7 +44,7 @@ const createIdGenerator = function(min, max) {
     let lastGeneratedId = getRandomInteger(min, max);
 
     if(previousValues.length >= (max - min + 1)) {
-      console.log('Закончились уникальные идентификаторы');
+      console.error('Закончились уникальные идентификаторы');
       return null;
     }
 
@@ -61,7 +61,7 @@ const generateCommentId = createIdGenerator(1, PHOTO_OBJECTS_AMOUNT * MAX_COMMEN
 
 const createCommentObject = () => ({
   id: generateCommentId(),
-  avatar:  'img/avatar-' + getRandomInteger(1, 6) + '.svg',
+  avatar:  `img/avatar-${getRandomInteger(1, 6)}.svg`,
   message: getRandomArrayElement(MESSAGES),
   name: getRandomArrayElement(NAMES),
 });
@@ -69,7 +69,7 @@ const createCommentObject = () => ({
 
 const createPhotoObject = (_, index) => ({
   id: index,
-  url: 'photos/' + index++ + '.jpg',
+  url: `photos/${index++}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
   comments: Array.from({length: getRandomInteger(MIN_COMMENTS, MAX_COMMENTS)}, createCommentObject)

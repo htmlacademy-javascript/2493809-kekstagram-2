@@ -1,6 +1,4 @@
-function isLesserOrEqual(string, maxLength) {
-  return string.length <= maxLength;
-}
+const isLesserOrEqual = (string, maxLength) => string.length <= maxLength;
 
 function isPalindrome(string) {
   const normalizedString = string.replaceAll(' ', '').toLowerCase();
@@ -22,3 +20,13 @@ function toPositiveNumber(string) {
   return parseInt(result, 10);
 }
 
+const timeToMinutesNumber = (arr) => Number(arr[0]) * 60 + Number(arr[1]);
+
+
+function isMeetingInWorkingHours(timeStart, timeEnd, meetingTime, meetingDuration) {
+  const timeStartNormalized = timeToMinutesNumber(timeStart.split(':'));
+  const timeEndNormalized = timeToMinutesNumber(timeEnd.split(':'));
+  const meetingTimeNormalized = timeToMinutesNumber(meetingTime.split(':'));
+
+  return (meetingTimeNormalized >= timeStartNormalized && (meetingTimeNormalized + meetingDuration) <= timeEndNormalized);
+}
