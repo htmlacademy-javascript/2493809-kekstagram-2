@@ -1,4 +1,4 @@
-import { generatePhotoObjects } from './data-generator.js';
+import './pictures-loader.js';
 import './hashtag-checker.js';
 import './image-scaling.js';
 import './image-effect.js';

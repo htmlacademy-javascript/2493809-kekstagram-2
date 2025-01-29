@@ -68,8 +68,8 @@ const createCommentObject = () => ({
 
 
 const createPhotoObject = (_, index) => ({
-  id: index,
-  url: `photos/${index++}.jpg`,
+  id: ++index,
+  url: `photos/${index}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
   comments: Array.from({length: getRandomInteger(MIN_COMMENTS, MAX_COMMENTS)}, createCommentObject)
