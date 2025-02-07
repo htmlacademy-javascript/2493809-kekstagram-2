@@ -1,19 +1,25 @@
-import { generatePhotoObjects } from './data-generator.js';
-
 const pictures = document.querySelector('.pictures');
-const usersPictures = generatePhotoObjects();
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesFragment = document.createDocumentFragment();
 
-usersPictures.forEach(({ url, description, likes, comments}) => {
-  const pictureElement = pictureTemplate.cloneNode(true);
+/**
+* Отображает превью изображений на странице.
+* @param {Array} usersPictures - Массив объектов с данными изображений.
+*/
 
-  pictureElement.querySelector('.picture__img').src = url;
-  pictureElement.querySelector('.picture__img').alt = description;
-  pictureElement.querySelector('.picture__likes').textContent = likes;
-  pictureElement.querySelector('.picture__comments').textContent = comments.length;
+const renderPictures = (usersPictures) => {
+  usersPictures.forEach(({ url, description, likes, comments }) => {
+    const pictureElement = pictureTemplate.cloneNode(true);
 
-  picturesFragment.appendChild(pictureElement);
-});
+    pictureElement.querySelector('.picture__img').src = url;
+    pictureElement.querySelector('.picture__img').alt = description;
+    pictureElement.querySelector('.picture__likes').textContent = likes;
+    pictureElement.querySelector('.picture__comments').textContent = comments.length;
 
-pictures.appendChild(picturesFragment);
+    picturesFragment.appendChild(pictureElement);
+  });
+
+    pictures.appendChild(picturesFragment);
+}
+
+export { renderPictures };
