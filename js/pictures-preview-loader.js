@@ -1,6 +1,10 @@
+import { openPicturePopup } from './show-image-fullscreen.js';
+
+
 const pictures = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesFragment = document.createDocumentFragment();
+
 
 /**
 * Отображает превью изображений на странице.
@@ -16,10 +20,16 @@ const renderPictures = (usersPictures) => {
     pictureElement.querySelector('.picture__likes').textContent = likes;
     pictureElement.querySelector('.picture__comments').textContent = comments.length;
 
+    pictureElement.addEventListener('click', () => {
+      openPicturePopup(url, description, likes, comments);
+    });
+
     picturesFragment.appendChild(pictureElement);
+
   });
 
-    pictures.appendChild(picturesFragment);
-}
+  pictures.appendChild(picturesFragment);
 
-export { renderPictures };
+};
+
+export { pictures, renderPictures };

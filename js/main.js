@@ -1,6 +1,7 @@
 import { generatePhotoObjects } from './data-generator.js';
-import { renderPictures} from './pictures-loader.js';
+import { renderPictures } from './pictures-preview-loader.js';
 
+import './show-image-fullscreen.js';
 import './hashtag-checker.js';
 import './image-scaling.js';
 import './image-effect.js';
