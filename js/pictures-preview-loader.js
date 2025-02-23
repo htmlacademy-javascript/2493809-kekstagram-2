@@ -1,7 +1,7 @@
 import { openPicturePopup } from './show-image-fullscreen.js';
 
 
-const pictures = document.querySelector('.pictures');
+const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesFragment = document.createDocumentFragment();
 
@@ -20,7 +20,8 @@ const renderPictures = (usersPictures) => {
     pictureElement.querySelector('.picture__likes').textContent = likes;
     pictureElement.querySelector('.picture__comments').textContent = comments.length;
 
-    pictureElement.addEventListener('click', () => {
+    pictureElement.addEventListener('click', (evt) => {
+      evt.preventDefault();
       openPicturePopup(url, description, likes, comments);
     });
 
@@ -28,8 +29,8 @@ const renderPictures = (usersPictures) => {
 
   });
 
-  pictures.appendChild(picturesFragment);
+  picturesContainer.appendChild(picturesFragment);
 
 };
 
-export { pictures, renderPictures };
+export { picturesContainer, renderPictures };
