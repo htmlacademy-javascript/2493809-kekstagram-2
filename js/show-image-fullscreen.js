@@ -1,7 +1,6 @@
 import { isEscapeKey } from './util.js';
 import { showComments, clearComments } from './comments-loader.js';
 
-const htmlBody = document.querySelector('body');
 const picture = document.querySelector('.big-picture');
 const picturesLikesCount = document.querySelector('.likes-count');
 const pictureCloseButton = document.querySelector('#picture-cancel');
@@ -18,7 +17,7 @@ const onDocumentKeydown = (evt) => {
 };
 
 function closePicturePopup() {
-  htmlBody.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
 
   picture.classList.add('hidden');
 
@@ -29,7 +28,7 @@ function closePicturePopup() {
 }
 
 const openPicturePopup = (url, description, likes, comments) => {
-  htmlBody.classList.add('modal-open');
+  document.body.classList.add('modal-open');
 
   picture.classList.remove('hidden');
   picture.querySelector('img').src = url;
