@@ -2,7 +2,6 @@ const commentsList = document.querySelector('.social__comments');
 const commentTemplate = commentsList.querySelector('li');
 const pictureShownComments = document.querySelector('.social__comment-shown-count');
 const pictureTotalComments = document.querySelector('.social__comment-total-count');
-const pictureCommentsCount = document.querySelector('.social__comment-count');
 const commentsShowMoreButton = document.querySelector('.comments-loader');
 let currentComments = [];
 let currentCommentsCount = 0;
@@ -30,7 +29,7 @@ const showNextComments = () => {
     commentsShowMoreButton.classList.add('hidden');
   }
 
-  pictureCommentsCount.textContent = `${renderedCommentsCount} из ${currentComments.length} комментариев`;
+  pictureShownComments.textContent = renderedCommentsCount;
   currentCommentsCount += SHOW_COMMENTS_STEP;
 };
 
