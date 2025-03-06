@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
 import { imagePreview, scaleValueField } from './image-scaling.js';
+import { sliderElementWrapper } from './image-effect.js';
 import { validateHashtag, checkForRepeatingHashtag, checkForHashtagCount } from './hashtag-validation.js';
 
 const imageUploadForm = document.querySelector('.img-upload__form');
@@ -36,7 +37,9 @@ function uploadFormClear() {
   commentInput.value = '';
   effectOriginal.checked = true;
   imagePreview.style.transform = '';
+  imagePreview.style.filter = '';
   scaleValueField.value = '100%';
+  sliderElementWrapper.classList.add('hidden');
 }
 
 function uploadFormCloseHandler() {

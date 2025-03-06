@@ -25,4 +25,4 @@ scaleValueField.addEventListener('change', () => {
   imagePreview.style.transform = `scale(${scaleValueField.value})`;
 });
 
-export { imagePreview, scaleValueField }
+export { imagePreview, scaleValueField };
