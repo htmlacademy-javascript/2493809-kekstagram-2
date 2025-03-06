@@ -2,7 +2,7 @@ const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const validateHashtag = (value) => {
   const hashtagArray = value.split(' ');
-  return value === '' ? true : hashtagArray.every((el) => hashtag.test(el));
+  return hashtagArray.every((el) => hashtag.test(el));
 };
 
 const checkForRepeatingHashtag = (value) => {
@@ -16,4 +16,53 @@ const checkForHashtagCount = (value) => {
   return hashtagArray.length <= 5;
 };
 
-export { validateHashtag, checkForRepeatingHashtag, checkForHashtagCount };
+const validateAllHashtags = (value) => {
+  if (value.trim() === '') {
+    return true;
+  }
+
+  const hashtagValidation = validateHashtag(value);
+  if (!hashtagValidation) {
+    console.log('Не валидный хэштег');
+    return false;
+  }
+
+  const repeatingValidation = checkForRepeatingHashtag(value);
+  if (!repeatingValidation) {
+    console.log('Хэштеги повторяются');
+    return false;
+  }
+
+  const countValidation = checkForHashtagCount(value);
+  if (!countValidation) {
+    console.log('Превышено количество хэштегов');
+    return false;
+  }
+
+  return true;
+};
+
+const validateHashtagError = (value) => {
+   if (value.trim() === '') {
+    return '';
+  }
+
+  const hashtagValidation = validateHashtag(value);
+  if (!hashtagValidation) {
+    return 'Не валидный хэштег';
+  }
+
+  const repeatingValidation = checkForRepeatingHashtag(value);
+  if (!repeatingValidation) {
+    return 'Хэштеги повторяются';
+  }
+
+  const countValidation = checkForHashtagCount(value);
+  if (!countValidation) {
+    return 'Превышено количество хэштегов';
+  }
+
+  return '';
+}
+
+export { validateAllHashtags, validateHashtagError };
