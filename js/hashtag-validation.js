@@ -23,19 +23,16 @@ const validateAllHashtags = (value) => {
 
   const hashtagValidation = validateHashtag(value);
   if (!hashtagValidation) {
-    console.log('Не валидный хэштег');
     return false;
   }
 
   const repeatingValidation = checkForRepeatingHashtag(value);
   if (!repeatingValidation) {
-    console.log('Хэштеги повторяются');
     return false;
   }
 
   const countValidation = checkForHashtagCount(value);
   if (!countValidation) {
-    console.log('Превышено количество хэштегов');
     return false;
   }
 
@@ -43,7 +40,7 @@ const validateAllHashtags = (value) => {
 };
 
 const validateHashtagError = (value) => {
-   if (value.trim() === '') {
+  if (value.trim() === '') {
     return '';
   }
 
@@ -63,6 +60,6 @@ const validateHashtagError = (value) => {
   }
 
   return '';
-}
+};
 
 export { validateAllHashtags, validateHashtagError };

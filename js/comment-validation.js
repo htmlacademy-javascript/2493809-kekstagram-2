@@ -1,5 +1,3 @@
-const validateComment = (value) => {
-  return value.length <= 140;
-};
+const validateComment = (value) => value.length <= 140;
 
 export { validateComment };
