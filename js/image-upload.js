@@ -1,5 +1,8 @@
 import { isEscapeKey } from './util.js';
-import { validateHashtag, checkForRepeatingHashtag, checkForHashtagCount } from './hashtag-validation.js';
+import { imagePreview, scaleValueField } from './image-scaling.js';
+import { sliderElementWrapper } from './image-effect.js';
+import { validateAllHashtags, validateHashtagError } from './hashtag-validation.js';
+import { validateComment } from './comment-validation.js';
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadNode = imageUploadForm.querySelector('.img-upload__overlay');
@@ -11,13 +14,10 @@ const commentInput = imageUploadForm.querySelector('.text__description');
 
 const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextTag: 'div',
 }, false);
-
-pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), validateHashtag, 'Введён невалидный хэштег');
-pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), checkForRepeatingHashtag, 'Хэштеги повторяются');
-pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), checkForHashtagCount, 'Превышено количество хэштегов');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -34,6 +34,10 @@ function uploadFormClear() {
   hashtagsInput.value = '';
   commentInput.value = '';
   effectOriginal.checked = true;
+  sliderElementWrapper.classList.add('hidden');
+  imagePreview.style.transform = '';
+  imagePreview.style.filter = '';
+  scaleValueField.value = '100%';
 }
 
 function uploadFormCloseHandler() {
@@ -60,6 +64,9 @@ imageUploadInput.addEventListener('change', ()=> {
   document.addEventListener('keydown', onDocumentKeydown);
 });
 
+pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), validateAllHashtags, validateHashtagError);
+pristine.addValidator(imageUploadForm.querySelector('.text__description'), validateComment, 'Длина комментария не может составлять больше 140 символов');
+
 imageUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
@@ -67,5 +74,3 @@ imageUploadForm.addEventListener('submit', (evt) => {
   imageUploadForm.removeEventListener('keydown', uploadFormNoEscWhenInputActive);
   imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
 });
-
-
