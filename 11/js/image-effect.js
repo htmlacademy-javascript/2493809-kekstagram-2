@@ -1,4 +1,4 @@
-import { imagePreview } from './image-scaling';
+import { imagePreview } from './image-scaling.js';
 
 const sliderElementWrapper = document.querySelector('.img-upload__effect-level');
 const sliderElement = sliderElementWrapper.querySelector('.effect-level__slider');
