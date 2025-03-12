@@ -1,4 +1,3 @@
-import { generatePhotoObjects } from './data-generator.js';
 import { renderPictures } from './pictures-preview-loader.js';
 
 import './show-image-fullscreen.js';
@@ -9,4 +8,8 @@ import './image-scaling.js';
 import './image-effect.js';
 import './image-filtration.js';
 
-renderPictures(generatePhotoObjects());
+// renderPictures(generatePhotoObjects());
+
+fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
+.then((data) => data.json())
+.then((picturesObjects) => renderPictures(picturesObjects));
