@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import { uploadData } from './api.js';
 import { imagePreview, scaleValueField } from './image-scaling.js';
 import { sliderElementWrapper } from './image-effect.js';
 import { validateAllHashtags, validateHashtagError } from './hashtag-validation.js';
@@ -7,6 +8,7 @@ import { validateComment } from './comment-validation.js';
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadNode = imageUploadForm.querySelector('.img-upload__overlay');
 const imageUploadInput = imageUploadForm.querySelector('.img-upload__input');
+const imageUploadSubmit = imageUploadForm.querySelector('.img-upload__submit');
 const imageUploadCloseButton = imageUploadForm.querySelector('.img-upload__cancel');
 const effectOriginal = imageUploadForm.querySelector('#effect-none');
 const hashtagsInput = imageUploadForm.querySelector('.text__hashtags');
@@ -30,21 +32,24 @@ const onDocumentKeydown = (evt) => {
 };
 
 function uploadFormClear() {
-  imageUploadInput.value = '';
   hashtagsInput.value = '';
   commentInput.value = '';
   effectOriginal.checked = true;
   sliderElementWrapper.classList.add('hidden');
-  imagePreview.style.transform = '';
   imagePreview.style.filter = '';
   scaleValueField.value = '100%';
+  imagePreview.style.transform = '';
 }
 
-function uploadFormCloseHandler() {
+function uploadFormCloseHandler(_,uploadError = false) {
   imageUploadNode.classList.add('hidden');
   document.body.classList.remove('modal-open');
+  imageUploadInput.value = '';
 
-  uploadFormClear();
+  if(!uploadError) {
+    uploadFormClear();
+  }
+
   document.removeEventListener('keydown', onDocumentKeydown);
   imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
 }
@@ -67,10 +72,20 @@ imageUploadInput.addEventListener('change', ()=> {
 pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), validateAllHashtags, validateHashtagError);
 pristine.addValidator(imageUploadForm.querySelector('.text__description'), validateComment, 'Длина комментария не может составлять больше 140 символов');
 
-imageUploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
 
-  imageUploadForm.removeEventListener('keydown', uploadFormNoEscWhenInputActive);
-  imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
-});
+const setImageUploadFormSubmit = () => {
+  imageUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if(isValid) {
+      const formData = new FormData(evt.target);
+      uploadData(formData);
+    }
+
+    imageUploadForm.removeEventListener('keydown', uploadFormNoEscWhenInputActive);
+    imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
+  });
+}
+
+export { setImageUploadFormSubmit, uploadFormCloseHandler };
