@@ -3,7 +3,7 @@ import { uploadData } from './api.js';
 import { imagePreview, scaleValueField } from './image-scaling.js';
 import { sliderElementWrapper } from './image-effect.js';
 import { validateAllHashtags, validateHashtagError } from './hashtag-validation.js';
-import { validateComment } from './comment-validation.js';
+import { validateComment, validateCommentError } from './comment-validation.js';
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadNode = imageUploadForm.querySelector('.img-upload__overlay');
@@ -78,7 +78,7 @@ imageUploadInput.addEventListener('change', ()=> {
 });
 
 pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), validateAllHashtags, validateHashtagError);
-pristine.addValidator(imageUploadForm.querySelector('.text__description'), validateComment, 'Длина комментария не может составлять больше 140 символов');
+pristine.addValidator(imageUploadForm.querySelector('.text__description'), validateComment, validateCommentError);
 
 
 const setImageUploadFormSubmit = () => {
