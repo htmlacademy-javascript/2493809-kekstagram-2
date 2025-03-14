@@ -21,6 +21,10 @@ const pristine = new Pristine(imageUploadForm, {
   errorTextTag: 'div',
 }, false);
 
+const blockSubmitButton = () => imageUploadSubmit.disabled = true;
+
+const unblockSubmitButton = () => imageUploadSubmit.disabled = false;
+
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -80,6 +84,7 @@ const setImageUploadFormSubmit = () => {
     const isValid = pristine.validate();
     if(isValid) {
       const formData = new FormData(evt.target);
+      blockSubmitButton();
       uploadData(formData);
     }
 
@@ -88,4 +93,4 @@ const setImageUploadFormSubmit = () => {
   });
 }
 
-export { setImageUploadFormSubmit, uploadFormCloseHandler };
+export { setImageUploadFormSubmit, uploadFormCloseHandler, unblockSubmitButton };

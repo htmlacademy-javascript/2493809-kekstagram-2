@@ -1,4 +1,5 @@
 import { uploadFormCloseHandler } from "./image-upload";
+import { unblockSubmitButton } from "./image-upload";
 
 const dataErrorTemplateNode = document.querySelector('#data-error').content.querySelector('.data-error');
 const successTemplateNode = document.querySelector('#success').content.querySelector('.success');
@@ -79,6 +80,7 @@ const uploadData = (body) => {
 
     return uploadSuccessful();
   }).catch(uploadError)
+  .finally(unblockSubmitButton);
 };
 
 export { loadData, uploadData };
