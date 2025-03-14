@@ -1,5 +1,5 @@
-import { uploadFormCloseHandler } from "./image-upload";
-import { unblockSubmitButton } from "./image-upload";
+import { uploadFormCloseHandler } from './image-upload';
+import { unblockSubmitButton } from './image-upload';
 
 const dataErrorTemplateNode = document.querySelector('#data-error').content.querySelector('.data-error');
 const successTemplateNode = document.querySelector('#success').content.querySelector('.success');
@@ -52,18 +52,18 @@ const uploadError = () => {
 
 const loadData = (onSuccess) => {
   fetch(`${BASE_URL}${Route.GET_DATA}`)
-  .then((response) => {
-    if(!response.ok) {
-      throw new Error();
-    }
-    return response.json()
-  })
-  .then(
-    (picturesObjects) => {
-      onSuccess(picturesObjects);
-    }
-  )
-  .catch(showError);
+    .then((response) => {
+      if(!response.ok) {
+        throw new Error();
+      }
+      return response.json();
+    })
+    .then(
+      (picturesObjects) => {
+        onSuccess(picturesObjects);
+      }
+    )
+    .catch(showError);
 };
 
 const uploadData = (body) => {
@@ -80,7 +80,7 @@ const uploadData = (body) => {
 
     return uploadSuccessful();
   }).catch(uploadError)
-  .finally(unblockSubmitButton);
+    .finally(unblockSubmitButton);
 };
 
 export { loadData, uploadData };
