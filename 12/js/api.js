@@ -1,5 +1,5 @@
-import { uploadFormCloseHandler } from './image-upload';
-import { unblockSubmitButton } from './image-upload';
+import { uploadFormCloseHandler } from './image-upload.js';
+import { unblockSubmitButton } from './image-upload.js';
 
 const dataErrorTemplateNode = document.querySelector('#data-error').content.querySelector('.data-error');
 const successTemplateNode = document.querySelector('#success').content.querySelector('.success');
