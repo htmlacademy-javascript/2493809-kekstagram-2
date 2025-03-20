@@ -1,5 +1,5 @@
 import { renderPictures } from './pictures-preview-loader.js';
-import { loadData } from './api.js';
+import { loadData, showError } from './api.js';
 import { setImageUploadFormSubmit } from './image-upload.js';
 import { debounce } from './util.js';
 import { getRandomInteger } from './util.js';
@@ -13,7 +13,8 @@ import './image-filtration.js';
 
 const RERENDER_DELAY = 500;
 
-loadData()
+try {
+  loadData()
   .then((picturesObjects) => {
     renderPictures(picturesObjects);
     setDefaultFilterClickHandler(debounce(
@@ -29,5 +30,8 @@ loadData()
       RERENDER_DELAY
     ));
   });
+} catch {
+  showError()
+}
 
 setImageUploadFormSubmit();
