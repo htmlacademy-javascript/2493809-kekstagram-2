@@ -50,7 +50,7 @@ const uploadError = () => {
   uploadFormCloseHandler(true);
 };
 
-const loadData = (onSuccess) => {
+const loadData = () =>
   fetch(`${BASE_URL}${Route.GET_DATA}`)
     .then((response) => {
       if(!response.ok) {
@@ -58,13 +58,9 @@ const loadData = (onSuccess) => {
       }
       return response.json();
     })
-    .then(
-      (picturesObjects) => {
-        onSuccess(picturesObjects);
-      }
-    )
-    .catch(showError);
-};
+    .catch(() => {
+      showError();
+    });
 
 const uploadData = (body) => {
   fetch(
@@ -83,4 +79,4 @@ const uploadData = (body) => {
     .finally(unblockSubmitButton);
 };
 
-export { loadData, uploadData };
+export { loadData, uploadData, showError };
