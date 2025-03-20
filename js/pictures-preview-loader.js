@@ -1,10 +1,8 @@
 import { openPicturePopup } from './show-image-fullscreen.js';
-
+import { picturesFilter } from './image-filtration.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const picturesFragment = document.createDocumentFragment();
-
 
 /**
 * Отображает превью изображений на странице.
@@ -12,6 +10,11 @@ const picturesFragment = document.createDocumentFragment();
 */
 
 const renderPictures = (usersPictures) => {
+  const picturesFragment = document.createDocumentFragment();
+
+  const existingPictures = picturesContainer.querySelectorAll('.picture');
+  existingPictures.forEach((picture) => picture.remove());
+
   usersPictures.forEach(({ url, description, likes, comments }) => {
     const pictureElement = pictureTemplate.cloneNode(true);
 
@@ -30,7 +33,7 @@ const renderPictures = (usersPictures) => {
   });
 
   picturesContainer.appendChild(picturesFragment);
-
+  picturesFilter.classList.remove('img-filters--inactive');
 };
 
-export { picturesContainer, renderPictures };
+export { picturesContainer, renderPictures};
