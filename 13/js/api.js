@@ -79,4 +79,4 @@ const uploadData = (body) => {
     .finally(unblockSubmitButton);
 };
 
-export { loadData, uploadData };
+export { loadData, uploadData, showError };
