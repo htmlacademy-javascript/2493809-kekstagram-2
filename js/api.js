@@ -12,10 +12,10 @@ const Route = {
 };
 
 const showError = () => {
-  const errorMessage = dataErrorTemplateNode.cloneNode(true);
-  document.body.appendChild(errorMessage);
+  const errorMessageNode = dataErrorTemplateNode.cloneNode(true);
+  document.body.appendChild(errorMessageNode);
   setTimeout(() => {
-    errorMessage.remove();
+    errorMessageNode.remove();
   }, ERROR_TIMEOUT_MS);
 };
 

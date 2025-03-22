@@ -10,13 +10,11 @@ import './image-effect.js';
 import './image-filtration.js';
 
 try {
-  loadData()
-    .then((picturesObjects) => {
-      renderPictures(picturesObjects);
-      showFilter();
-      setFilterClickHandler(picturesObjects);
-    });
-} catch {
+  const picturesObjects = await loadData();
+  renderPictures(picturesObjects);
+  showFilter();
+  setFilterClickHandler(picturesObjects);
+} catch  {
   showError();
 }
 
