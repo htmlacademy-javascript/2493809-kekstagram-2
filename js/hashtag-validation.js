@@ -1,18 +1,19 @@
 const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const validateHashtag = (value) => {
-  const hashtagArray = value.split(' ');
+  const hashtagArray = value.split(/\s+/);
+  console.log(hashtagArray);
   return hashtagArray.every((el) => hashtag.test(el));
 };
 
 const checkForRepeatingHashtag = (value) => {
-  const hashtagArray = value.toLowerCase().split(' ');
+  const hashtagArray = value.toLowerCase().split(/\s+/);
   const checkSet = new Set(hashtagArray);
   return checkSet.size === hashtagArray.length;
 };
 
 const checkForHashtagCount = (value) => {
-  const hashtagArray = value.split(' ');
+  const hashtagArray = value.split(/\s+/);
   return hashtagArray.length <= 5;
 };
 
