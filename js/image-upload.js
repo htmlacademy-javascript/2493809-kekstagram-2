@@ -96,6 +96,7 @@ const setImageUploadFormSubmit = () => {
       const formData = new FormData(evt.target);
       blockSubmitButton();
       uploadData(formData);
+      pristine.reset();
     }
 
     imageUploadForm.removeEventListener('keydown', uploadFormNoEscWhenInputActive);
