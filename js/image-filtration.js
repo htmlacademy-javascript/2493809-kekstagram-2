@@ -22,12 +22,12 @@ const showFilter = () => picturesFilter.classList.remove('img-filters--inactive'
 
 const renderRandomPhotos = (photos) => {
   const randomPhotos = photos.slice().sort(() => getRandomInteger(-1, 1)).splice(0, RANDOM_PHOTOS_COUNT);
-  renderPictures(randomPhotos)
+  renderPictures(randomPhotos);
 };
 const renderMostDiscussedPhotos = (photos) => {
   const sortedPhotos = photos.slice().sort(compareCommentsCount);
   renderPictures(sortedPhotos);
-}
+};
 
 const debounceRender = (renderFunction) => {
   clearTimeout(debounceRender.lastDebouncedCall);

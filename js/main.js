@@ -14,7 +14,7 @@ try {
   renderPictures(picturesObjects);
   showFilter();
   setFilterClickHandler(picturesObjects);
-} catch  {
+} catch {
   showError();
 }
 
