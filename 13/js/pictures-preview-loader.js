@@ -1,6 +1,6 @@
 import { openPicturePopup } from './show-image-fullscreen.js';
-import { picturesFilter } from './image-filtration.js';
 
+const picturesFragment = document.createDocumentFragment();
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -10,8 +10,6 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 */
 
 const renderPictures = (usersPictures) => {
-  const picturesFragment = document.createDocumentFragment();
-
   const existingPictures = picturesContainer.querySelectorAll('.picture');
   existingPictures.forEach((picture) => picture.remove());
 
@@ -33,7 +31,6 @@ const renderPictures = (usersPictures) => {
   });
 
   picturesContainer.appendChild(picturesFragment);
-  picturesFilter.classList.remove('img-filters--inactive');
 };
 
 export { picturesContainer, renderPictures};
