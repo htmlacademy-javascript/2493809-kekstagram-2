@@ -13,6 +13,7 @@ const imageUploadCloseButton = imageUploadForm.querySelector('.img-upload__cance
 const effectOriginal = imageUploadForm.querySelector('#effect-none');
 const hashtagsInput = imageUploadForm.querySelector('.text__hashtags');
 const commentInput = imageUploadForm.querySelector('.text__description');
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -69,6 +70,13 @@ function uploadFormNoEscWhenInputActive(evt) {
 }
 
 imageUploadInput.addEventListener('change', ()=> {
+  const file = imageUploadInput.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((extension) => fileName.endsWith(extension));
+  if (matches) {
+    imagePreview.src = URL.createObjectURL(file);
+  }
+
   imageUploadNode.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
