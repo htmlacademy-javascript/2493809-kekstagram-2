@@ -8,7 +8,8 @@ const sepiaValue = document.querySelector('#effect-sepia');
 const marvinValue = document.querySelector('#effect-marvin');
 const phobosValue = document.querySelector('#effect-phobos');
 const heatValue = document.querySelector('#effect-heat');
-const radioInputElements = document.querySelector('.img-upload__effects');
+const radioInputSection = document.querySelector('.img-upload__effects');
+const effectsPreviewElements = radioInputSection.querySelectorAll('.effects__preview');
 let currentSliderValue = 0;
 
 sliderElementWrapper.classList.add('hidden');
@@ -55,7 +56,7 @@ sliderElement.noUiSlider.on('update', () => {
   applyFilter();
 });
 
-radioInputElements.addEventListener('click', (evt) => {
+radioInputSection.addEventListener('click', (evt) => {
   if (evt.target.matches('input[type="radio"]')) {
     let options = {};
     sliderElementWrapper.classList.remove('hidden');
@@ -83,4 +84,4 @@ radioInputElements.addEventListener('click', (evt) => {
   }
 });
 
-export { sliderElementWrapper };
+export { sliderElementWrapper, effectsPreviewElements };

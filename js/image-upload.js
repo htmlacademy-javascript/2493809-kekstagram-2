@@ -1,7 +1,7 @@
 import { isEscapeKey } from './util.js';
 import { uploadData } from './api.js';
 import { imagePreview, scaleValueField } from './image-scaling.js';
-import { sliderElementWrapper } from './image-effect.js';
+import { sliderElementWrapper, effectsPreviewElements } from './image-effect.js';
 import { validateAllHashtags, validateHashtagError } from './hashtag-validation.js';
 import { validateComment, validateCommentError } from './comment-validation.js';
 
@@ -74,7 +74,9 @@ imageUploadInput.addEventListener('change', ()=> {
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((extension) => fileName.endsWith(extension));
   if (matches) {
-    imagePreview.src = URL.createObjectURL(file);
+    const tempPath = URL.createObjectURL(file)
+    imagePreview.src = tempPath;
+    effectsPreviewElements.forEach((preview) => preview.style.backgroundImage = `url("${tempPath}")`);
   }
 
   imageUploadNode.classList.remove('hidden');
