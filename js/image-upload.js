@@ -34,7 +34,6 @@ const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     uploadFormCloseHandler();
-    document.removeEventListener('keydown', onDocumentKeydown);
     imageUploadForm.removeEventListener('keydown', uploadFormNoEscWhenInputActive);
     imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
   }
@@ -50,14 +49,11 @@ function uploadFormClear() {
   imagePreview.style.transform = '';
 }
 
-function uploadFormCloseHandler(_,uploadError = false) {
+function uploadFormCloseHandler() {
   imageUploadNode.classList.add('hidden');
   document.body.classList.remove('modal-open');
   imageUploadInput.value = '';
-
-  if(!uploadError) {
-    uploadFormClear();
-  }
+  uploadFormClear();
 
   document.removeEventListener('keydown', onDocumentKeydown);
   imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);

@@ -1,9 +1,11 @@
 import { uploadFormCloseHandler } from './image-upload.js';
 import { unblockSubmitButton } from './image-upload.js';
+import { isEscapeKey } from './util.js';
 
 const dataErrorTemplateNode = document.querySelector('#data-error').content.querySelector('.data-error');
 const successTemplateNode = document.querySelector('#success').content.querySelector('.success');
 const errorTemplateNode = document.querySelector('#error').content.querySelector('.error');
+const successMessage = successTemplateNode.cloneNode(true);
 const ERROR_TIMEOUT_MS = 5000;
 const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 const Route = {
@@ -19,17 +21,28 @@ const showError = () => {
   }, ERROR_TIMEOUT_MS);
 };
 
-const uploadSuccessful = () => {
-  const successMessage = successTemplateNode.cloneNode(true);
-  document.body.appendChild(successMessage);
+const uploadSuccessfulCloseHandler = () => {
+  successMessage.remove()
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
 
-  const successTemplateNodeClickHandler = (evt) => {
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    uploadSuccessfulCloseHandler();
+    successMessage.removeEventListener('click', uploadSuccessfulCloseHandler);
+  }
+};
+
+const uploadSuccessful = () => {
+  document.body.appendChild(successMessage);
+  document.addEventListener('keydown', onDocumentKeydown);
+
+  successMessage.addEventListener('click', (evt) => {
     if(!evt.target.closest('div') || evt.target.closest('button')) {
-      successMessage.remove();
-      document.body.removeEventListener('click', successTemplateNodeClickHandler);
+      uploadSuccessfulCloseHandler();
     }
-  };
-  document.body.addEventListener('click', successTemplateNodeClickHandler);
+  })
 
   uploadFormCloseHandler();
 };
@@ -46,8 +59,6 @@ const uploadError = () => {
   };
 
   document.body.addEventListener('click', errorTemplateNodeClickHandler);
-
-  uploadFormCloseHandler(true);
 };
 
 const loadData = () =>
