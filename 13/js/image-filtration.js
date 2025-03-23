@@ -1,15 +1,15 @@
 import { renderPictures } from './pictures-preview-loader.js';
 import { getRandomInteger } from './util.js';
 
+const RANDOM_PHOTOS_COUNT = 10;
+const RERENDER_DELAY = 500;
+
 const picturesFilter = document.querySelector('.img-filters');
 const FilterButtons = {
   default: picturesFilter.querySelector('#filter-default'),
   random: picturesFilter.querySelector('#filter-random'),
   discussed: picturesFilter.querySelector('#filter-discussed'),
 };
-
-const RANDOM_PHOTOS_COUNT = 10;
-const RERENDER_DELAY = 500;
 
 const compareCommentsCount = (photoA, photoB) => {
   const commentsA = photoA.comments.length;

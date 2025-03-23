@@ -1,15 +1,19 @@
-import { uploadFormCloseHandler } from './image-upload.js';
+import { uploadFormCloseHandler, documentKeydownHandler } from './image-upload.js';
 import { unblockSubmitButton } from './image-upload.js';
+import { isEscapeKey } from './util.js';
 
-const dataErrorTemplateNode = document.querySelector('#data-error').content.querySelector('.data-error');
-const successTemplateNode = document.querySelector('#success').content.querySelector('.success');
-const errorTemplateNode = document.querySelector('#error').content.querySelector('.error');
 const ERROR_TIMEOUT_MS = 5000;
 const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 const Route = {
   GET_DATA: '/data',
   SEND_DATA: '/',
 };
+
+const dataErrorTemplateNode = document.querySelector('#data-error').content.querySelector('.data-error');
+const successTemplateNode = document.querySelector('#success').content.querySelector('.success');
+const errorTemplateNode = document.querySelector('#error').content.querySelector('.error');
+const errorMessage = errorTemplateNode.cloneNode(true);
+const successMessage = successTemplateNode.cloneNode(true);
 
 const showError = () => {
   const errorMessageNode = dataErrorTemplateNode.cloneNode(true);
@@ -19,35 +23,57 @@ const showError = () => {
   }, ERROR_TIMEOUT_MS);
 };
 
-const uploadSuccessful = () => {
-  const successMessage = successTemplateNode.cloneNode(true);
-  document.body.appendChild(successMessage);
 
-  const successTemplateNodeClickHandler = (evt) => {
+const onSuccessMessageKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    successMessageCloseHandler();
+    successMessage.removeEventListener('click', successMessageCloseHandler);
+  }
+};
+
+function successMessageCloseHandler() {
+  successMessage.remove();
+  document.removeEventListener('keydown', onSuccessMessageKeydown);
+}
+
+const uploadSuccessful = () => {
+  document.body.appendChild(successMessage);
+  document.addEventListener('keydown', onSuccessMessageKeydown);
+
+  successMessage.addEventListener('click', (evt) => {
     if(!evt.target.closest('div') || evt.target.closest('button')) {
-      successMessage.remove();
-      document.body.removeEventListener('click', successTemplateNodeClickHandler);
+      successMessageCloseHandler();
     }
-  };
-  document.body.addEventListener('click', successTemplateNodeClickHandler);
+  });
 
   uploadFormCloseHandler();
 };
 
+const errorMessageCloseHandler = () => {
+  errorMessage.remove();
+  document.removeEventListener('keydown', errorMessageCloseHandler);
+  document.addEventListener('keydown', documentKeydownHandler);
+};
+
+const errorMessageKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    errorMessageCloseHandler();
+    errorMessage.removeEventListener('click', errorMessageCloseHandler);
+  }
+};
+
 const uploadError = () => {
-  const errorMessage = errorTemplateNode.cloneNode(true);
   document.body.appendChild(errorMessage);
+  document.removeEventListener('keydown', documentKeydownHandler);
+  document.addEventListener('keydown', errorMessageKeydown);
 
-  const errorTemplateNodeClickHandler = (evt) => {
+  errorMessage.addEventListener('click', (evt) => {
     if(!evt.target.closest('div') || evt.target.closest('button')) {
-      errorMessage.remove();
-      document.body.removeEventListener('click', errorTemplateNodeClickHandler);
+      errorMessageCloseHandler();
     }
-  };
-
-  document.body.addEventListener('click', errorTemplateNodeClickHandler);
-
-  uploadFormCloseHandler(true);
+  });
 };
 
 const loadData = () =>
@@ -73,8 +99,7 @@ const uploadData = (body) => {
     if(!response.ok) {
       throw new Error();
     }
-
-    return uploadSuccessful();
+    uploadSuccessful();
   }).catch(uploadError)
     .finally(unblockSubmitButton);
 };
