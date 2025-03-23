@@ -1,3 +1,5 @@
+const SHOW_COMMENTS_STEP = 5;
+
 const commentsList = document.querySelector('.social__comments');
 const commentTemplate = commentsList.querySelector('li');
 const pictureShownComments = document.querySelector('.social__comment-shown-count');
@@ -5,16 +7,17 @@ const pictureTotalComments = document.querySelector('.social__comment-total-coun
 const commentsShowMoreButton = document.querySelector('.comments-loader');
 let currentComments = [];
 let currentCommentsCount = 0;
-const SHOW_COMMENTS_STEP = 5;
 
 const loadComment = (avatarSrc, author, message) => {
-  const newComment = commentTemplate.cloneNode(true);
+  const comment = commentTemplate.cloneNode(true);
+  const commentPicture = comment.querySelector('.social__picture');
+  const commentText = comment.querySelector('.social__text');
 
-  newComment.querySelector('.social__picture').src = avatarSrc;
-  newComment.querySelector('.social__picture').alt = author;
-  newComment.querySelector('.social__text').textContent = message;
+  commentPicture.src = avatarSrc;
+  commentPicture.alt = author;
+  commentText.textContent = message;
 
-  commentsList.appendChild(newComment);
+  commentsList.appendChild(comment);
 };
 
 const showNextComments = () => {
