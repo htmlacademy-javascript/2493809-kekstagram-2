@@ -1,19 +1,20 @@
 import { isEscapeKey } from './util.js';
-import { uploadData } from './api.js';
+import { uploadData, showError } from './api.js';
 import { imagePreview, scaleValueField } from './image-scaling.js';
-import { sliderElementWrapper, effectsPreviewElements } from './image-effect.js';
+import { sliderNodeWrapper, effectPreviewElements } from './image-effect.js';
 import { validateAllHashtags, validateHashtagError } from './hashtag-validation.js';
-import { validateComment, validateCommentError } from './comment-validation.js';
+import { validateComment, validationCommentError } from './comment-validation.js';
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const imageUploadForm = document.querySelector('.img-upload__form');
-const imageUploadNode = imageUploadForm.querySelector('.img-upload__overlay');
+const imageUploadOverlay = imageUploadForm.querySelector('.img-upload__overlay');
 const imageUploadInput = imageUploadForm.querySelector('.img-upload__input');
 const imageUploadSubmit = imageUploadForm.querySelector('.img-upload__submit');
 const imageUploadCloseButton = imageUploadForm.querySelector('.img-upload__cancel');
-const effectOriginal = imageUploadForm.querySelector('#effect-none');
+const effectOriginalNode = imageUploadForm.querySelector('#effect-none');
 const hashtagsInput = imageUploadForm.querySelector('.text__hashtags');
 const commentInput = imageUploadForm.querySelector('.text__description');
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -30,7 +31,7 @@ const unblockSubmitButton = () => {
   imageUploadSubmit.disabled = false;
 };
 
-const onDocumentKeydown = (evt) => {
+const documentKeydownHandler = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     uploadFormCloseHandler();
@@ -42,20 +43,20 @@ const onDocumentKeydown = (evt) => {
 function uploadFormClear() {
   hashtagsInput.value = '';
   commentInput.value = '';
-  effectOriginal.checked = true;
-  sliderElementWrapper.classList.add('hidden');
+  effectOriginalNode.checked = true;
+  sliderNodeWrapper.classList.add('hidden');
   imagePreview.style.filter = '';
   scaleValueField.value = '100%';
   imagePreview.style.transform = '';
 }
 
 function uploadFormCloseHandler() {
-  imageUploadNode.classList.add('hidden');
+  imageUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   imageUploadInput.value = '';
   uploadFormClear();
 
-  document.removeEventListener('keydown', onDocumentKeydown);
+  document.removeEventListener('keydown', documentKeydownHandler);
   imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
 }
 
@@ -70,33 +71,39 @@ imageUploadInput.addEventListener('change', ()=> {
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((extension) => fileName.endsWith(extension));
   if (matches) {
-    const tempPath = URL.createObjectURL(file)
+    const tempPath = URL.createObjectURL(file);
     imagePreview.src = tempPath;
-    effectsPreviewElements.forEach((preview) => preview.style.backgroundImage = `url("${tempPath}")`);
+    effectPreviewElements.forEach((preview) => {
+      preview.style.backgroundImage = `url("${tempPath}")`;
+    });
   }
 
-  imageUploadNode.classList.remove('hidden');
+  imageUploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
   imageUploadForm.addEventListener('keydown', uploadFormNoEscWhenInputActive);
   imageUploadCloseButton.addEventListener('click', uploadFormCloseHandler);
-  document.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('keydown', documentKeydownHandler);
 });
 
 pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), validateAllHashtags, validateHashtagError);
-pristine.addValidator(imageUploadForm.querySelector('.text__description'), validateComment, validateCommentError);
+pristine.addValidator(imageUploadForm.querySelector('.text__description'), validateComment, validationCommentError);
 
 
 const setImageUploadFormSubmit = () => {
-  imageUploadForm.addEventListener('submit', (evt) => {
+  imageUploadForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
 
     const isValid = pristine.validate();
     if(isValid) {
-      const formData = new FormData(evt.target);
-      blockSubmitButton();
-      uploadData(formData);
-      pristine.reset();
+      try {
+        const formData = new FormData(evt.target);
+        blockSubmitButton();
+        await uploadData(formData);
+        pristine.reset();
+      } catch (error) {
+        showError();
+      }
     }
 
     imageUploadForm.removeEventListener('keydown', uploadFormNoEscWhenInputActive);
@@ -104,4 +111,4 @@ const setImageUploadFormSubmit = () => {
   });
 };
 
-export { setImageUploadFormSubmit, uploadFormCloseHandler, unblockSubmitButton };
+export { setImageUploadFormSubmit, uploadFormCloseHandler, unblockSubmitButton, documentKeydownHandler};

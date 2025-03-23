@@ -20,13 +20,13 @@ function toPositiveNumber(string) {
   return parseInt(result, 10);
 }
 
-const timeToMinutesNumber = (arr) => Number(arr[0]) * 60 + Number(arr[1]);
+const convertTimeToMinutesNumber = (arr) => Number(arr[0]) * 60 + Number(arr[1]);
 
 
 function isMeetingInWorkingHours(timeStart, timeEnd, meetingTime, meetingDuration) {
-  const timeStartNormalized = timeToMinutesNumber(timeStart.split(':'));
-  const timeEndNormalized = timeToMinutesNumber(timeEnd.split(':'));
-  const meetingTimeNormalized = timeToMinutesNumber(meetingTime.split(':'));
+  const timeStartNormalized = convertTimeToMinutesNumber(timeStart.split(':'));
+  const timeEndNormalized = convertTimeToMinutesNumber(timeEnd.split(':'));
+  const meetingTimeNormalized = convertTimeToMinutesNumber(meetingTime.split(':'));
 
   return (meetingTimeNormalized >= timeStartNormalized && (meetingTimeNormalized + meetingDuration) <= timeEndNormalized);
 }
