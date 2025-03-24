@@ -7,6 +7,13 @@ const EffectsList = {
   phobos: document.querySelector('#effect-phobos'),
   heat: document.querySelector('#effect-heat'),
 }
+const EffectsOptions = {
+  noEffect: { range: { min: 0, max: 0 }, start: 0},
+  chromeAndSepia: { range: { min: 0, max: 1 }, start: 1, step: 0.1 },
+  marvin: { range: { min: 0, max: 100 }, start: 100, step: 1 },
+  phobos: { range: { min: 0, max: 3 }, start: 3, step: 0.1 },
+  heat: { range: { min: 1, max: 3 }, start: 3, step: 0.1 },
+}
 
 const sliderNodeWrapper = document.querySelector('.img-upload__effect-level');
 const sliderNode = sliderNodeWrapper.querySelector('.effect-level__slider');
@@ -74,19 +81,19 @@ radioInputSection.addEventListener('click', (evt) => {
     switch (evt.target) {
       case EffectsList.chrome:
       case EffectsList.sepia:
-        options = { range: { min: 0, max: 1 }, start: 1, step: 0.1 };
+        options = EffectsOptions.chromeAndSepia;
         break;
       case EffectsList.marvin:
-        options = { range: { min: 0, max: 100 }, start: 100, step: 1 };
+        options = EffectsOptions.marvin;
         break;
       case EffectsList.phobos:
-        options = { range: { min: 0, max: 3 }, start: 3, step: 0.1 };
+        options = EffectsOptions.phobos;
         break;
       case EffectsList.heat:
-        options = { range: { min: 1, max: 3 }, start: 3, step: 0.1 };
+        options = EffectsOptions.heat;
         break;
       default:
-        options = { range: { min: 0, max: 0 }, start: 0};
+        options = EffectsOptions.noEffect;
         applyEffect();
         sliderNodeWrapper.classList.add('hidden');
     }
