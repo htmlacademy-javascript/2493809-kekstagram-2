@@ -27,16 +27,17 @@ function closePicturePopup() {
   document.removeEventListener('keydown', documentKeydownHandler);
 }
 
-const openPicturePopup = (url, description, likes, comments) => {
+const openPicturePopup = (pictureData) => {
   document.body.classList.add('modal-open');
 
   picture.classList.remove('hidden');
-  picture.querySelector('img').src = url;
-  pictureLikesCount.textContent = likes;
-  pictureDescription.textContent = description;
+
+  picture.querySelector('img').src = pictureData.url;
+  pictureLikesCount.textContent = pictureData.likes;
+  pictureDescription.textContent = pictureData.description;
   pictureCloseButton.addEventListener('click', closePicturePopup);
 
-  showComments(comments);
+  showComments(pictureData.comments);
 
   document.addEventListener('keydown', documentKeydownHandler);
 };
