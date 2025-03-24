@@ -95,7 +95,7 @@ const imageUploadSubmitHandler = async (evt) => {
     try {
       const formData = new FormData(evt.target);
       blockSubmitButton();
-      await uploadData(formData);
+      uploadData(formData);
       pristine.reset();
     } catch (error) {
       showError();
@@ -106,11 +106,11 @@ const imageUploadSubmitHandler = async (evt) => {
   imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
 };
 
-const setImageUploadFormSubmit = () => {
+const initForm = () => {
   imageUploadForm.addEventListener('submit', imageUploadSubmitHandler);
 };
 
 pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), validateAllHashtags, validateHashtagError);
 pristine.addValidator(imageUploadForm.querySelector('.text__description'), validateComment, validationCommentError);
 
-export { setImageUploadFormSubmit, uploadFormCloseHandler, unblockSubmitButton, documentKeydownHandler};
+export { initForm, uploadFormCloseHandler, unblockSubmitButton, documentKeydownHandler};
