@@ -55,6 +55,7 @@ function uploadFormCloseHandler() {
   document.body.classList.remove('modal-open');
   imageUploadInput.value = '';
   uploadFormClear();
+  pristine.reset();
 
   document.removeEventListener('keydown', documentKeydownHandler);
   imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
