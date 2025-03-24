@@ -1,13 +1,23 @@
 import { imagePreview } from './image-scaling.js';
 
+const EffectsList = {
+  chrome: document.querySelector('#effect-chrome'),
+  sepia: document.querySelector('#effect-sepia'),
+  marvin: document.querySelector('#effect-marvin'),
+  phobos: document.querySelector('#effect-phobos'),
+  heat: document.querySelector('#effect-heat'),
+};
+const EffectsOptions = {
+  noEffect: { range: { min: 0, max: 0 }, start: 0},
+  chromeAndSepia: { range: { min: 0, max: 1 }, start: 1, step: 0.1 },
+  marvin: { range: { min: 0, max: 100 }, start: 100, step: 1 },
+  phobos: { range: { min: 0, max: 3 }, start: 3, step: 0.1 },
+  heat: { range: { min: 1, max: 3 }, start: 3, step: 0.1 },
+};
+
 const sliderNodeWrapper = document.querySelector('.img-upload__effect-level');
 const sliderNode = sliderNodeWrapper.querySelector('.effect-level__slider');
 const valueNode = document.querySelector('.effect-level__value');
-const chromeEffectNode = document.querySelector('#effect-chrome');
-const sepiaEffectNode = document.querySelector('#effect-sepia');
-const marvinEffectNode = document.querySelector('#effect-marvin');
-const phobosEffectNode = document.querySelector('#effect-phobos');
-const heatEffectNode = document.querySelector('#effect-heat');
 const radioInputSection = document.querySelector('.img-upload__effects');
 const effectPreviewElements = radioInputSection.querySelectorAll('.effects__preview');
 let currentSliderValue = 0;
@@ -34,26 +44,34 @@ noUiSlider.create(sliderNode, {
   },
 });
 
-const applyFilter = () => {
-  if (chromeEffectNode.checked) {
-    imagePreview.style.filter = `grayscale(${currentSliderValue})`;
-  } else if (sepiaEffectNode.checked) {
-    imagePreview.style.filter = `sepia(${currentSliderValue})`;
-  } else if (marvinEffectNode.checked) {
-    imagePreview.style.filter = `invert(${currentSliderValue}%)`;
-  } else if (phobosEffectNode.checked) {
-    imagePreview.style.filter = `blur(${currentSliderValue}px)`;
-  } else if (heatEffectNode.checked) {
-    imagePreview.style.filter = `brightness(${currentSliderValue})`;
-  } else {
-    imagePreview.style.filter = '';
+const applyEffect = () => {
+  const isElementChecked = true;
+
+  switch (isElementChecked) {
+    case EffectsList.chrome.checked:
+      imagePreview.style.filter = `grayscale(${currentSliderValue})`;
+      break;
+    case EffectsList.sepia.checked:
+      imagePreview.style.filter = `sepia(${currentSliderValue})`;
+      break;
+    case EffectsList.marvin.checked:
+      imagePreview.style.filter = `invert(${currentSliderValue}%)`;
+      break;
+    case EffectsList.phobos.checked:
+      imagePreview.style.filter = `blur(${currentSliderValue}px)`;
+      break;
+    case EffectsList.heat.checked:
+      imagePreview.style.filter = `brightness(${currentSliderValue})`;
+      break;
+    default:
+      imagePreview.style.filter = '';
   }
 };
 
 sliderNode.noUiSlider.on('update', () => {
   currentSliderValue = sliderNode.noUiSlider.get();
   valueNode.value = currentSliderValue;
-  applyFilter();
+  applyEffect();
 });
 
 radioInputSection.addEventListener('click', (evt) => {
@@ -61,22 +79,22 @@ radioInputSection.addEventListener('click', (evt) => {
     let options = {};
     sliderNodeWrapper.classList.remove('hidden');
     switch (evt.target) {
-      case chromeEffectNode:
-      case sepiaEffectNode:
-        options = { range: { min: 0, max: 1 }, start: 1, step: 0.1 };
+      case EffectsList.chrome:
+      case EffectsList.sepia:
+        options = EffectsOptions.chromeAndSepia;
         break;
-      case marvinEffectNode:
-        options = { range: { min: 0, max: 100 }, start: 100, step: 1 };
+      case EffectsList.marvin:
+        options = EffectsOptions.marvin;
         break;
-      case phobosEffectNode:
-        options = { range: { min: 0, max: 3 }, start: 3, step: 0.1 };
+      case EffectsList.phobos:
+        options = EffectsOptions.phobos;
         break;
-      case heatEffectNode:
-        options = { range: { min: 1, max: 3 }, start: 3, step: 0.1 };
+      case EffectsList.heat:
+        options = EffectsOptions.heat;
         break;
       default:
-        options = { range: { min: 0, max: 0 }, start: 0};
-        applyFilter();
+        options = EffectsOptions.noEffect;
+        applyEffect();
         sliderNodeWrapper.classList.add('hidden');
     }
 

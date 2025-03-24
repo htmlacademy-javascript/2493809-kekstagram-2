@@ -55,6 +55,7 @@ function uploadFormCloseHandler() {
   document.body.classList.remove('modal-open');
   imageUploadInput.value = '';
   uploadFormClear();
+  pristine.reset();
 
   document.removeEventListener('keydown', documentKeydownHandler);
   imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
@@ -86,29 +87,30 @@ imageUploadInput.addEventListener('change', ()=> {
   document.addEventListener('keydown', documentKeydownHandler);
 });
 
-pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), validateAllHashtags, validateHashtagError);
-pristine.addValidator(imageUploadForm.querySelector('.text__description'), validateComment, validationCommentError);
+const imageUploadSubmitHandler = async (evt) => {
+  evt.preventDefault();
 
+  const isValid = pristine.validate();
+  if(isValid) {
+    try {
+      const formData = new FormData(evt.target);
+      blockSubmitButton();
+      await uploadData(formData);
+      pristine.reset();
+    } catch (error) {
+      showError();
+    }
+  }
+
+  imageUploadForm.removeEventListener('keydown', uploadFormNoEscWhenInputActive);
+  imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
+};
 
 const setImageUploadFormSubmit = () => {
-  imageUploadForm.addEventListener('submit', async (evt) => {
-    evt.preventDefault();
-
-    const isValid = pristine.validate();
-    if(isValid) {
-      try {
-        const formData = new FormData(evt.target);
-        blockSubmitButton();
-        await uploadData(formData);
-        pristine.reset();
-      } catch (error) {
-        showError();
-      }
-    }
-
-    imageUploadForm.removeEventListener('keydown', uploadFormNoEscWhenInputActive);
-    imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
-  });
+  imageUploadForm.addEventListener('submit', imageUploadSubmitHandler);
 };
+
+pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), validateAllHashtags, validateHashtagError);
+pristine.addValidator(imageUploadForm.querySelector('.text__description'), validateComment, validationCommentError);
 
 export { setImageUploadFormSubmit, uploadFormCloseHandler, unblockSubmitButton, documentKeydownHandler};

@@ -61,9 +61,6 @@ const setFilterClickHandler = (photos) => {
       case FilterButtons.discussed:
         debounceRender(() => renderMostDiscussedPhotos(photos));
         break;
-
-      default:
-        break;
     }
   });
 };
