@@ -6,14 +6,14 @@ const EffectsList = {
   marvin: document.querySelector('#effect-marvin'),
   phobos: document.querySelector('#effect-phobos'),
   heat: document.querySelector('#effect-heat'),
-}
+};
 const EffectsOptions = {
   noEffect: { range: { min: 0, max: 0 }, start: 0},
   chromeAndSepia: { range: { min: 0, max: 1 }, start: 1, step: 0.1 },
   marvin: { range: { min: 0, max: 100 }, start: 100, step: 1 },
   phobos: { range: { min: 0, max: 3 }, start: 3, step: 0.1 },
   heat: { range: { min: 1, max: 3 }, start: 3, step: 0.1 },
-}
+};
 
 const sliderNodeWrapper = document.querySelector('.img-upload__effect-level');
 const sliderNode = sliderNodeWrapper.querySelector('.effect-level__slider');

@@ -87,10 +87,6 @@ imageUploadInput.addEventListener('change', ()=> {
   document.addEventListener('keydown', documentKeydownHandler);
 });
 
-pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), validateAllHashtags, validateHashtagError);
-pristine.addValidator(imageUploadForm.querySelector('.text__description'), validateComment, validationCommentError);
-
-
 const setImageUploadFormSubmit = () => {
   imageUploadForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
@@ -111,5 +107,8 @@ const setImageUploadFormSubmit = () => {
     imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
   });
 };
+
+pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), validateAllHashtags, validateHashtagError);
+pristine.addValidator(imageUploadForm.querySelector('.text__description'), validateComment, validationCommentError);
 
 export { setImageUploadFormSubmit, uploadFormCloseHandler, unblockSubmitButton, documentKeydownHandler};
