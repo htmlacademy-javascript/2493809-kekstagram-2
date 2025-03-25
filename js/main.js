@@ -23,6 +23,6 @@ const init = async () => {
   }
 };
 
-await init();
+init();
 initForm();
 
