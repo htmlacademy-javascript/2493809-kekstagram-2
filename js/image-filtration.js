@@ -50,7 +50,7 @@ const setFilterClickHandler = (images) => {
   imagesFilter.addEventListener('click', (evt) => {
     const activeFilter = document.querySelector('.img-filters__button--active');
 
-    if (evt.target === activeFilter && evt.target !== FilterButtons.random) {
+    if (evt.target === activeFilter && evt.target.id !== 'filter-random') {
       return;
     }
 
