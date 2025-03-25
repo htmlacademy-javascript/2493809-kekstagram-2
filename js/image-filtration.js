@@ -1,5 +1,5 @@
 import { renderImages } from './images-preview-loader.js';
-import { getRandomInteger } from './util.js';
+import { getRandomInteger, debounce } from './util.js';
 
 const RANDOM_IMAGES_COUNT = 10;
 const RERENDER_DELAY = 500;
@@ -21,22 +21,37 @@ const compareCommentsCount = (imageA, imageB) => {
 const showFilter = () => imagesFilter.classList.remove('img-filters--inactive');
 
 const renderRandomImages = (images) => {
-  const randomImages = images.slice().sort(() => getRandomInteger(-1, 1)).splice(0, RANDOM_IMAGES_COUNT);
+  const randomImages = images
+    .slice()
+    .sort(() => getRandomInteger(-1, 1))
+    .splice(0, RANDOM_IMAGES_COUNT);
   renderImages(randomImages);
 };
 const renderMostDiscussedImages = (images) => {
-  const sortedImages = images.slice().sort(compareCommentsCount);
+  const sortedImages = images
+    .slice()
+    .sort(compareCommentsCount);
   renderImages(sortedImages);
 };
 
-const debounceRender = (renderFunction) => {
-  clearTimeout(debounceRender.lastDebouncedCall);
-  debounceRender.lastDebouncedCall = setTimeout(() => {
-    renderFunction();
-  }, RERENDER_DELAY);
-};
-
 const setFilterClickHandler = (images) => {
+
+  const applyFilter = (selectedFilter) => {
+    switch (selectedFilter) {
+      case 'defaultFilter':
+        renderImages(images);
+        break;
+      case 'random':
+        renderRandomImages(images);
+        break;
+      case 'discussed':
+        renderMostDiscussedImages(images);
+        break;
+    }
+  };
+
+  const debouncedApplyFilter = debounce(applyFilter, RERENDER_DELAY);
+
   imagesFilter.addEventListener('click', (evt) => {
     const activeFilter = document.querySelector('.img-filters__button--active');
 
@@ -49,21 +64,24 @@ const setFilterClickHandler = (images) => {
       evt.target.classList.add('img-filters__button--active');
     }
 
+    let selectedFilter;
+
     switch (evt.target) {
       case FilterButtons.default:
-        debounceRender(() => renderImages(images));
+        selectedFilter = 'defaultFilter';
         break;
 
       case FilterButtons.random:
-        debounceRender(() => renderRandomImages(images));
+        selectedFilter = 'random';
         break;
 
       case FilterButtons.discussed:
-        debounceRender(() => renderMostDiscussedImages(images));
+        selectedFilter = 'discussed';
         break;
     }
+
+    debouncedApplyFilter(selectedFilter);
   });
 };
-
 
 export { showFilter, setFilterClickHandler };
