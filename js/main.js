@@ -1,5 +1,6 @@
 import { renderImages, setImagesContainerClickHandler } from './images-preview-loader.js';
-import { loadData, showError } from './api.js';
+import { loadData } from './api.js';
+import { showError } from './show-status-popup.js';
 import { initForm } from './image-upload.js';
 import { showFilter, setFilterClickHandler } from './image-filtration.js';
 
