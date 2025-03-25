@@ -2,8 +2,8 @@ const SHOW_COMMENTS_STEP = 5;
 
 const commentsList = document.querySelector('.social__comments');
 const commentTemplate = commentsList.querySelector('li');
-const pictureShownComments = document.querySelector('.social__comment-shown-count');
-const pictureTotalComments = document.querySelector('.social__comment-total-count');
+const imageShownComments = document.querySelector('.social__comment-shown-count');
+const imageTotalComments = document.querySelector('.social__comment-total-count');
 const commentsShowMoreButton = document.querySelector('.comments-loader');
 let currentComments = [];
 let currentCommentsCount = 0;
@@ -32,15 +32,15 @@ const showNextComments = () => {
     commentsShowMoreButton.classList.add('hidden');
   }
 
-  pictureShownComments.textContent = renderedCommentsCount;
+  imageShownComments.textContent = renderedCommentsCount;
   currentCommentsCount += SHOW_COMMENTS_STEP;
 };
 
 const showComments = (comments) => {
   commentsList.innerHTML = '';
   currentComments = comments;
-  pictureShownComments.textContent = currentCommentsCount + SHOW_COMMENTS_STEP;
-  pictureTotalComments.textContent = comments.length;
+  imageShownComments.textContent = currentCommentsCount + SHOW_COMMENTS_STEP;
+  imageTotalComments.textContent = comments.length;
   showNextComments();
   commentsShowMoreButton.addEventListener('click', showNextComments);
 };

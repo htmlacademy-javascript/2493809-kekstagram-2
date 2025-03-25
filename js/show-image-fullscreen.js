@@ -1,46 +1,46 @@
 import { isEscapeKey } from './util.js';
 import { showComments, clearComments } from './comments-loader.js';
 
-const picture = document.querySelector('.big-picture');
-const pictureLikesCount = document.querySelector('.likes-count');
-const pictureCloseButton = document.querySelector('#picture-cancel');
-const pictureDescription = document.querySelector('.social__caption');
+const image = document.querySelector('.big-picture');
+const imageLikesCount = document.querySelector('.likes-count');
+const imageCloseButton = document.querySelector('#picture-cancel');
+const imageDescription = document.querySelector('.social__caption');
 
 const documentKeydownHandler = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closePicturePopup();
+    closeImagePopup();
     document.removeEventListener('keydown', documentKeydownHandler);
 
     clearComments();
   }
 };
 
-function closePicturePopup() {
+function closeImagePopup() {
   document.body.classList.remove('modal-open');
 
-  picture.classList.add('hidden');
+  image.classList.add('hidden');
 
   clearComments();
 
-  pictureCloseButton.removeEventListener('click', closePicturePopup);
+  imageCloseButton.removeEventListener('click', closeImagePopup);
   document.removeEventListener('keydown', documentKeydownHandler);
 }
 
-const openPicturePopup = (pictureData) => {
+const openImagePopup = (imageData) => {
   document.body.classList.add('modal-open');
 
-  picture.classList.remove('hidden');
+  image.classList.remove('hidden');
 
-  picture.querySelector('img').src = pictureData.url;
-  pictureLikesCount.textContent = pictureData.likes;
-  pictureDescription.textContent = pictureData.description;
-  pictureCloseButton.addEventListener('click', closePicturePopup);
+  image.querySelector('img').src = imageData.url;
+  imageLikesCount.textContent = imageData.likes;
+  imageDescription.textContent = imageData.description;
+  imageCloseButton.addEventListener('click', closeImagePopup);
 
-  showComments(pictureData.comments);
+  showComments(imageData.comments);
 
   document.addEventListener('keydown', documentKeydownHandler);
 };
 
 
-export { openPicturePopup };
+export { openImagePopup };
