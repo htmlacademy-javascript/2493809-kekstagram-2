@@ -19,7 +19,7 @@ const loadData = () =>
 
 const uploadData = async (body) => {
   fetch(
-    `${BASE_URL}${Route.SEND_DATA}`,
+    `${BASE_URL}${Route.SEND_DATA}1`,
     {
       method: 'POST',
       body: body,
