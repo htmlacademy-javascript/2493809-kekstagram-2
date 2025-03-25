@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
-import { uploadData, showError } from './api.js';
+import { uploadData } from './api.js';
+import { showError } from './show-status-popup.js';
 import { imagePreview, scaleValueField } from './image-scaling.js';
 import { sliderNodeWrapper, effectPreviewElements } from './image-effect.js';
 import { validateAllHashtags, validateHashtagError } from './hashtag-validation.js';
@@ -113,4 +114,4 @@ const initForm = () => {
 pristine.addValidator(imageUploadForm.querySelector('.text__hashtags'), validateAllHashtags, validateHashtagError);
 pristine.addValidator(imageUploadForm.querySelector('.text__description'), validateComment, validationCommentError);
 
-export { initForm, uploadFormCloseHandler, unblockSubmitButton, documentKeydownHandler};
+export { initForm, uploadFormCloseHandler, documentKeydownHandler, unblockSubmitButton};
