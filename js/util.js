@@ -5,6 +5,15 @@ const getRandomInteger = function(min, max) {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
+const getRadioButtonsValue = (name) => {
+  const buttons = document.querySelectorAll(`input[name="${name}"]`);
+  for (const button of buttons) {
+    if (button.checked) {
+      return button.value;
+    }
+  }
+};
+
 const debounce = (callback, delayMS = 500) => {
   let timeoutId;
 
@@ -15,4 +24,4 @@ const debounce = (callback, delayMS = 500) => {
   };
 };
 
-export { getRandomInteger, isEscapeKey, debounce };
+export { getRandomInteger, isEscapeKey, getRadioButtonsValue, debounce };

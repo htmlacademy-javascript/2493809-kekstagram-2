@@ -5,11 +5,6 @@ const RANDOM_IMAGES_COUNT = 10;
 const RERENDER_DELAY = 500;
 
 const imagesFilter = document.querySelector('.img-filters');
-const FilterButtons = {
-  default: imagesFilter.querySelector('#filter-default'),
-  random: imagesFilter.querySelector('#filter-random'),
-  discussed: imagesFilter.querySelector('#filter-discussed'),
-};
 
 const compareCommentsCount = (imageA, imageB) => {
   const commentsA = imageA.comments.length;
@@ -66,16 +61,16 @@ const setFilterClickHandler = (images) => {
 
     let selectedFilter;
 
-    switch (evt.target) {
-      case FilterButtons.default:
+    switch (evt.target.id) {
+      case 'filter-default':
         selectedFilter = 'defaultFilter';
         break;
 
-      case FilterButtons.random:
+      case 'filter-random':
         selectedFilter = 'random';
         break;
 
-      case FilterButtons.discussed:
+      case 'filter-discussed':
         selectedFilter = 'discussed';
         break;
     }

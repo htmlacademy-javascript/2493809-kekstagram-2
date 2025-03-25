@@ -1,18 +1,13 @@
 import { imagePreview } from './image-scaling.js';
+import { getRadioButtonsValue } from './util.js';
 
-const EffectsList = {
-  chrome: document.querySelector('#effect-chrome'),
-  sepia: document.querySelector('#effect-sepia'),
-  marvin: document.querySelector('#effect-marvin'),
-  phobos: document.querySelector('#effect-phobos'),
-  heat: document.querySelector('#effect-heat'),
-};
 const EffectsOptions = {
-  noEffect: { range: { min: 0, max: 0 }, start: 0},
-  chromeAndSepia: { range: { min: 0, max: 1 }, start: 1, step: 0.1 },
-  marvin: { range: { min: 0, max: 100 }, start: 100, step: 1 },
-  phobos: { range: { min: 0, max: 3 }, start: 3, step: 0.1 },
-  heat: { range: { min: 1, max: 3 }, start: 3, step: 0.1 },
+  'none': { range: { min: 0, max: 0 }, start: 0},
+  'chrome': { range: { min: 0, max: 1 }, start: 1, step: 0.1 },
+  'sepia': { range: { min: 0, max: 1 }, start: 1, step: 0.1 },
+  'marvin': { range: { min: 0, max: 100 }, start: 100, step: 1 },
+  'phobos': { range: { min: 0, max: 3 }, start: 3, step: 0.1 },
+  'heat': { range: { min: 1, max: 3 }, start: 3, step: 0.1 },
 };
 
 const sliderNodeWrapper = document.querySelector('.img-upload__effect-level');
@@ -21,6 +16,7 @@ const valueNode = document.querySelector('.effect-level__value');
 const radioInputSection = document.querySelector('.img-upload__effects');
 const effectPreviewElements = radioInputSection.querySelectorAll('.effects__preview');
 let currentSliderValue = 0;
+let currentEffect = 'none';
 
 sliderNodeWrapper.classList.add('hidden');
 
@@ -44,23 +40,21 @@ noUiSlider.create(sliderNode, {
   },
 });
 
-const applyEffect = () => {
-  const isElementChecked = true;
-
-  switch (isElementChecked) {
-    case EffectsList.chrome.checked:
+const applyEffect = (effect) => {
+  switch (effect) {
+    case 'chrome':
       imagePreview.style.filter = `grayscale(${currentSliderValue})`;
       break;
-    case EffectsList.sepia.checked:
+    case 'sepia':
       imagePreview.style.filter = `sepia(${currentSliderValue})`;
       break;
-    case EffectsList.marvin.checked:
+    case 'marvin':
       imagePreview.style.filter = `invert(${currentSliderValue}%)`;
       break;
-    case EffectsList.phobos.checked:
+    case 'phobos':
       imagePreview.style.filter = `blur(${currentSliderValue}px)`;
       break;
-    case EffectsList.heat.checked:
+    case 'heat':
       imagePreview.style.filter = `brightness(${currentSliderValue})`;
       break;
     default:
@@ -71,33 +65,20 @@ const applyEffect = () => {
 sliderNode.noUiSlider.on('update', () => {
   currentSliderValue = sliderNode.noUiSlider.get();
   valueNode.value = currentSliderValue;
-  applyEffect();
+  applyEffect(currentEffect);
 });
 
 radioInputSection.addEventListener('click', (evt) => {
   if (evt.target.matches('input[type="radio"]')) {
     let options = {};
-    sliderNodeWrapper.classList.remove('hidden');
-    switch (evt.target) {
-      case EffectsList.chrome:
-      case EffectsList.sepia:
-        options = EffectsOptions.chromeAndSepia;
-        break;
-      case EffectsList.marvin:
-        options = EffectsOptions.marvin;
-        break;
-      case EffectsList.phobos:
-        options = EffectsOptions.phobos;
-        break;
-      case EffectsList.heat:
-        options = EffectsOptions.heat;
-        break;
-      default:
-        options = EffectsOptions.noEffect;
-        applyEffect();
-        sliderNodeWrapper.classList.add('hidden');
-    }
+    currentEffect = getRadioButtonsValue('effect');
 
+    sliderNodeWrapper.classList.remove('hidden');
+    options = EffectsOptions[currentEffect];
+    if(currentEffect === 'none') {
+      applyEffect();
+      sliderNodeWrapper.classList.add('hidden');
+    }
     sliderNode.noUiSlider.updateOptions(options);
   }
 });
