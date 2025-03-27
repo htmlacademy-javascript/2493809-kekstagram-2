@@ -38,7 +38,7 @@ const showNextComments = () => {
 
 const showMoreButtonClickHandler = () => {
   showNextComments();
-}
+};
 
 const showComments = (comments) => {
   commentsList.innerHTML = '';
