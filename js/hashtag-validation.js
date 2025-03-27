@@ -1,8 +1,8 @@
-const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
+const HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const validateHashtag = (value) => {
   const hashtagsArray = value.split(/\s+/);
-  return hashtagsArray.every((el) => hashtag.test(el));
+  return hashtagsArray.every((el) => HASHTAG.test(el));
 };
 
 const checkForRepeatingHashtag = (value) => {
