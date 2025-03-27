@@ -36,7 +36,7 @@ const documentKeydownHandler = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     uploadFormCloseHandler();
-    imageUploadForm.removeEventListener('keydown', uploadFormNoEscWhenInputActive);
+    imageUploadForm.removeEventListener('keydown', uploadFormInputsEscKeydownHandler);
     imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
   }
 };
@@ -62,7 +62,7 @@ function uploadFormCloseHandler() {
   imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
 }
 
-function uploadFormNoEscWhenInputActive(evt) {
+function uploadFormInputsEscKeydownHandler(evt) {
   if(isEscapeKey(evt) && (evt.target === hashtagsInput || evt.target === commentInput)) {
     evt.stopPropagation();
   }
@@ -83,7 +83,7 @@ imageUploadInput.addEventListener('change', ()=> {
   imageUploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
-  imageUploadForm.addEventListener('keydown', uploadFormNoEscWhenInputActive);
+  imageUploadForm.addEventListener('keydown', uploadFormInputsEscKeydownHandler);
   imageUploadCloseButton.addEventListener('click', uploadFormCloseHandler);
   document.addEventListener('keydown', documentKeydownHandler);
 });
@@ -103,7 +103,7 @@ const imageUploadSubmitHandler = async (evt) => {
     }
   }
 
-  imageUploadForm.removeEventListener('keydown', uploadFormNoEscWhenInputActive);
+  imageUploadForm.removeEventListener('keydown', uploadFormInputsEscKeydownHandler);
   imageUploadCloseButton.removeEventListener('click', uploadFormCloseHandler);
 };
 
