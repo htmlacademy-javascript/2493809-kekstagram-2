@@ -32,11 +32,7 @@ const validateAllHashtags = (value) => {
   }
 
   const countValidation = checkForHashtagCount(value);
-  if (!countValidation) {
-    return false;
-  }
-
-  return true;
+  return countValidation;
 };
 
 const validateHashtagError = (value) => {

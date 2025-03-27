@@ -23,8 +23,12 @@ function closeImagePopup() {
 
   clearComments();
 
-  imageCloseButton.removeEventListener('click', closeImagePopup);
+  imageCloseButton.removeEventListener('click', imageCloseButtonClickHandler);
   document.removeEventListener('keydown', documentKeydownHandler);
+}
+
+function imageCloseButtonClickHandler() {
+  closeImagePopup();
 }
 
 const openImagePopup = (imageData) => {
@@ -35,7 +39,7 @@ const openImagePopup = (imageData) => {
   image.querySelector('img').src = imageData.url;
   imageLikesCount.textContent = imageData.likes;
   imageDescription.textContent = imageData.description;
-  imageCloseButton.addEventListener('click', closeImagePopup);
+  imageCloseButton.addEventListener('click', imageCloseButtonClickHandler);
 
   showComments(imageData.comments);
 

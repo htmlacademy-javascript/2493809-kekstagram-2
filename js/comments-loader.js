@@ -36,13 +36,17 @@ const showNextComments = () => {
   currentCommentsCount += SHOW_COMMENTS_STEP;
 };
 
+const showMoreButtonClickHandler = () => {
+  showNextComments();
+}
+
 const showComments = (comments) => {
   commentsList.innerHTML = '';
   currentComments = comments;
   imageShownComments.textContent = currentCommentsCount + SHOW_COMMENTS_STEP;
   imageTotalComments.textContent = comments.length;
   showNextComments();
-  commentsShowMoreButton.addEventListener('click', showNextComments);
+  commentsShowMoreButton.addEventListener('click', showMoreButtonClickHandler);
 };
 
 
@@ -50,7 +54,7 @@ const clearComments = () => {
   currentComments = [];
   currentCommentsCount = 0;
   commentsShowMoreButton.classList.remove('hidden');
-  commentsShowMoreButton.removeEventListener('click', showNextComments);
+  commentsShowMoreButton.removeEventListener('click', showMoreButtonClickHandler);
 };
 
 export { showComments, clearComments};
